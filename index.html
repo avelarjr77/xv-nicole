@@ -6,23 +6,53 @@
     <title>Invitación</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            min-height: 100vh;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            aspect-ratio: 210 / 297; /* Proporción de A4 */
+        .container {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+        .container img {
+            width: 100%;
+            display: block;
+        }
+        .link {
+            position: absolute;
+            display: block;
+            /* Optional: Uncomment the background for testing clickable areas */
+            /* background: rgba(255, 0, 0, 0.3); */
+        }
+        /* Link for location */
+        .ubicacion {
+            top: 85%; /* Adjust based on your design */
+            left: 10%;
+            width: 40%;
+            height: 8%;
+        }
+        /* Link for uploading photos */
+        .fotos {
+            top: 85%; /* Adjust based on your design */
+            left: 55%;
+            width: 35%;
+            height: 8%;
         }
     </style>
 </head>
 <body>
-    <img src="src/img.png" alt="Invitación">
+    <div class="container">
+        <img src="src/img.png" alt="Invitación">
+
+        <!-- Floating hyperlinks -->
+        <a href="https://www.google.com/maps?q=14.023185729980469,-89.64469909667969&z=17&hl=es" class="link ubicacion" target="_blank" aria-label="Ver ubicación"></a>
+
+        <a href="https://drive.google.com/drive/folders/1UEZLs3ogFGIoO66KJ8DvKWsitVpiEPZE" class="link fotos" target="_blank" aria-label="Subir fotos"></a>
+    </div>
 </body>
 </html>
