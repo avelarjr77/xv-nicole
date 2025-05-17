@@ -1,4 +1,60 @@
-.countdown {
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NICOLE - MIS XV A&Ntilde;OS</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .container img {
+            width: 100%;
+            display: block;
+        }
+
+        .link {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-family: sans-serif;
+            border-radius: 8px;
+            z-index: 10;
+            opacity: 0;
+        }
+        .ubicacion {
+            top: 58%;
+            left: 33%;
+            width: 30%;
+            height: 5%;
+        }
+
+        .fotos {
+            top: 71%;
+            left: 35%;
+            width: 30%;
+            height: 5%;
+        }
+
+        /* Estilos para el contador */
+        .countdown {
     position: absolute;
     top: 1%; /* Más arriba */
     left: 50%;
@@ -25,3 +81,151 @@
     font-size: 0.6rem; /* Más pequeño */
     margin-top: 1px;
 }
+
+        /* Confeti canvas */
+        #confetti-canvas {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="container">
+        <div class="countdown" id="countdown">
+            <div>
+                <span id="days">00</span>
+                <span class="countdown-label">DÍAS</span>
+            </div>
+            <div>
+                <span id="hours">00</span>
+                <span class="countdown-label">HORAS</span>
+            </div>
+            <div>
+                <span id="minutes">00</span>
+                <span class="countdown-label">MIN</span>
+            </div>
+            <div>
+                <span id="seconds">00</span>
+                <span class="countdown-label">SEG</span>
+            </div>
+        </div>
+        <img src="src/img.png" alt="Invitación">
+
+        <a href="https://www.google.com/maps?q=14.023185729980469,-89.64469909667969&z=17&hl=es" 
+           class="link ubicacion" target="_blank">
+           VER UBICACIÓN
+        </a>
+
+        <a href="https://drive.google.com/drive/folders/1UEZLs3ogFGIoO66KJ8DvKWsitVpiEPZE" 
+           class="link fotos" target="_blank">
+           SUBIR FOTOS
+        </a>
+    </div>
+    <script>
+        // Fecha objetivo: 24 de mayo de 2025 a las 5:00 pm (hora local)
+        const targetDate = new Date('2025-05-24T17:00:00');
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        let confettiActive = false;
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            // Si es el 24 de mayo de 2025 o después, mostrar confeti y mensaje
+            if (
+                now.getFullYear() === 2025 &&
+                now.getMonth() === 4 && // Mayo es 4 (0-indexed)
+                now.getDate() >= 24
+            ) {
+                document.getElementById('countdown').innerHTML = "¡Ya comenzó la fiesta!";
+                startConfetti();
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Confeti simple en canvas
+        function startConfetti() {
+            if (confettiActive) return;
+            confettiActive = true;
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            const ctx = confettiCanvas.getContext('2d');
+            const confettiCount = 120;
+            const confettiColors = ['#4efc58', '#baffc9', '#fff', '#00ffae', '#00e676', '#39ff14'];
+            const confetti = [];
+
+            for (let i = 0; i < confettiCount; i++) {
+                confetti.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: 6 + Math.random() * 6,
+                    d: Math.random() * confettiCanvas.height,
+                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+                    tilt: Math.floor(Math.random() * 10) - 5,
+                    tiltAngleIncremental: (Math.random() * 0.07) + .05,
+                    tiltAngle: 0
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                for (let i = 0; i < confetti.length; i++) {
+                    let c = confetti[i];
+                    ctx.beginPath();
+                    ctx.lineWidth = c.r;
+                    ctx.strokeStyle = c.color;
+                    ctx.moveTo(c.x + c.tilt + (c.r / 3), c.y);
+                    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r);
+                    ctx.stroke();
+                }
+                updateConfetti();
+                requestAnimationFrame(drawConfetti);
+            }
+
+            function updateConfetti() {
+                for (let i = 0; i < confetti.length; i++) {
+                    let c = confetti[i];
+                    c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+                    c.x += Math.sin(0.01 * c.d);
+                    c.tiltAngle += c.tiltAngleIncremental;
+                    c.tilt = Math.sin(c.tiltAngle - (i % 3)) * 15;
+
+                    // Reset confetti to top when it falls out of view
+                    if (c.y > confettiCanvas.height) {
+                        c.x = Math.random() * confettiCanvas.width;
+                        c.y = -10;
+                        c.tilt = Math.floor(Math.random() * 10) - 5;
+                    }
+                }
+            }
+
+            drawConfetti();
+        }
+
+        // Redimensionar canvas si cambia el tamaño de la ventana
+        window.addEventListener('resize', () => {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
