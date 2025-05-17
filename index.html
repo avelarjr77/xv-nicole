@@ -5,25 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NICOLE - MIS XV A&Ntilde;OS</title>
     <style>
+        :root {
+            --verde-esmeralda: #004d3c;
+            --dorado: #d4af37;
+            --marfil: #fdfbf7;
+            --jade: #a0d1b5;
+        }
         body {
             margin: 0;
             padding: 0;
-            background: #000;
+            background: var(--verde-esmeralda);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
             position: relative;
             max-width: 600px;
             width: 100%;
+            background: linear-gradient(135deg, var(--marfil) 80%, var(--jade) 100%);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 0 0 6px var(--jade);
+            overflow: hidden;
+            border: 2px solid var(--dorado);
         }
 
         .container img {
             width: 100%;
             display: block;
+            border-bottom: 2px solid var(--dorado);
         }
 
         .link {
@@ -31,13 +44,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            color: var(--verde-esmeralda);
             font-weight: bold;
             text-decoration: none;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             border-radius: 8px;
             z-index: 10;
-            opacity: 0;
+            opacity: 0.95;
+            background: linear-gradient(90deg, var(--dorado) 60%, var(--jade) 100%);
+            border: 1.5px solid var(--dorado);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: background 0.3s, color 0.3s;
+        }
+        .link:hover {
+            background: var(--verde-esmeralda);
+            color: var(--marfil);
         }
         .ubicacion {
             top: 58%;
@@ -55,32 +76,58 @@
 
         /* Estilos para el contador */
         .countdown {
-    position: absolute;
-    top: 1%; /* Más arriba */
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: rgba(0, 64, 0, 0.85);
-    color: #4efc58;
-    padding: 5px 10px; /* Menos padding */
-    border-radius: 10px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 0.85rem; /* Más pequeño */
-    text-align: center;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 8px rgba(0,128,0,0.15);
-    z-index: 20;
-    border: 2px solid #4efc58;
-    display: flex;
-    gap: 6px; /* Menos espacio entre bloques */
-}
-.countdown span {
-    min-width: 24px; /* Más pequeño */
-    font-weight: 600;
-}
-.countdown-label {
-    font-size: 0.6rem; /* Más pequeño */
-    margin-top: 1px;
-}
+            position: absolute;
+            top: 1.5%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: linear-gradient(90deg, var(--jade) 60%, var(--marfil) 100%);
+            color: var(--verde-esmeralda);
+            padding: 7px 16px;
+            border-radius: 16px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0,77,60,0.10);
+            z-index: 20;
+            border: 2px solid var(--dorado);
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            animation: fadeInDown 1.2s cubic-bezier(.42,0,.58,1.0);
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translate(-50%, -30px);}
+            to { opacity: 1; transform: translate(-50%, 0);}
+        }
+        .countdown div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 38px;
+            animation: bounce 1.5s infinite alternate;
+        }
+        .countdown div:nth-child(2) { animation-delay: 0.2s;}
+        .countdown div:nth-child(3) { animation-delay: 0.4s;}
+        .countdown div:nth-child(4) { animation-delay: 0.6s;}
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-7px);}
+        }
+        .countdown span {
+            min-width: 28px;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: var(--dorado);
+            text-shadow: 0 1px 2px var(--verde-esmeralda), 0 0 2px var(--jade);
+            transition: color 0.3s;
+        }
+        .countdown-label {
+            font-size: 0.7rem;
+            margin-top: 1px;
+            color: var(--verde-esmeralda);
+            letter-spacing: 0.5px;
+        }
 
         /* Confeti canvas */
         #confetti-canvas {
@@ -92,11 +139,64 @@
             height: 100vh;
             z-index: 100;
         }
+
+        /* Mariposas decorativas */
+        .butterfly {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            z-index: 30;
+            opacity: 0.92;
+            pointer-events: none;
+            animation: flutter 5s infinite alternate ease-in-out;
+        }
+        .butterfly.b1 { top: 10%; left: 6%; animation-delay: 0s;}
+        .butterfly.b2 { top: 18%; right: 7%; animation-delay: 1.5s;}
+        .butterfly.b3 { bottom: 12%; left: 12%; animation-delay: 2.2s;}
+        .butterfly.b4 { bottom: 8%; right: 10%; animation-delay: 0.8s;}
+        @keyframes flutter {
+            0% { transform: translateY(0) scale(1) rotate(-5deg);}
+            50% { transform: translateY(-18px) scale(1.08) rotate(7deg);}
+            100% { transform: translateY(0) scale(1) rotate(-5deg);}
+        }
     </style>
 </head>
 <body>
     <canvas id="confetti-canvas"></canvas>
     <div class="container">
+        <!-- Mariposas SVG decorativas -->
+        <svg class="butterfly b1" viewBox="0 0 48 48">
+            <g>
+                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
+                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
+                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
+            </g>
+        </svg>
+        <svg class="butterfly b2" viewBox="0 0 48 48">
+            <g>
+                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
+                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
+                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
+            </g>
+        </svg>
+        <svg class="butterfly b3" viewBox="0 0 48 48">
+            <g>
+                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
+                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
+                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
+            </g>
+        </svg>
+        <svg class="butterfly b4" viewBox="0 0 48 48">
+            <g>
+                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
+                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
+                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
+            </g>
+        </svg>
         <div class="countdown" id="countdown">
             <div>
                 <span id="days">00</span>
@@ -133,6 +233,20 @@
         const confettiCanvas = document.getElementById('confetti-canvas');
         let confettiActive = false;
 
+        // Animación de pulso para los números del contador
+        function animatePulse(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.animate([
+                { transform: 'scale(1)', color: '#d4af37' },
+                { transform: 'scale(1.18)', color: '#004d3c' },
+                { transform: 'scale(1)', color: '#d4af37' }
+            ], {
+                duration: 400,
+                easing: 'cubic-bezier(.42,0,.58,1.0)'
+            });
+        }
+
         function updateCountdown() {
             const now = new Date();
             const diff = targetDate - now;
@@ -153,6 +267,12 @@
             const minutes = Math.floor((diff / (1000 * 60)) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
 
+            // Solo animar si cambia el valor
+            if (document.getElementById('days').textContent !== days.toString().padStart(2, '0')) animatePulse('days');
+            if (document.getElementById('hours').textContent !== hours.toString().padStart(2, '0')) animatePulse('hours');
+            if (document.getElementById('minutes').textContent !== minutes.toString().padStart(2, '0')) animatePulse('minutes');
+            if (document.getElementById('seconds').textContent !== seconds.toString().padStart(2, '0')) animatePulse('seconds');
+
             document.getElementById('days').textContent = days.toString().padStart(2, '0');
             document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
             document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
@@ -162,7 +282,7 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Confeti simple en canvas
+        // Confeti simple en canvas (colores de la paleta)
         function startConfetti() {
             if (confettiActive) return;
             confettiActive = true;
@@ -170,7 +290,7 @@
             confettiCanvas.height = window.innerHeight;
             const ctx = confettiCanvas.getContext('2d');
             const confettiCount = 120;
-            const confettiColors = ['#4efc58', '#baffc9', '#fff', '#00ffae', '#00e676', '#39ff14'];
+            const confettiColors = ['#004d3c', '#d4af37', '#fdfbf7', '#a0d1b5'];
             const confetti = [];
 
             for (let i = 0; i < confettiCount; i++) {
