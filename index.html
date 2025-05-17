@@ -1,42 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NICOLE - MIS XV A&Ntilde;OS</title>
     <style>
-        :root {
-            --verde-esmeralda: #004d3c;
-            --dorado: #d4af37;
-            --marfil: #fdfbf7;
-            --jade: #a0d1b5;
-        }
         body {
             margin: 0;
             padding: 0;
-            background: var(--verde-esmeralda);
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .container {
             position: relative;
             max-width: 600px;
             width: 100%;
-            background: linear-gradient(135deg, var(--marfil) 80%, var(--jade) 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 0 0 6px var(--jade);
-            overflow: hidden;
-            border: 2px solid var(--dorado);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .container img {
             width: 100%;
             display: block;
-            border-bottom: 2px solid var(--dorado);
         }
 
         .link {
@@ -44,21 +39,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--verde-esmeralda);
+            color: white;
             font-weight: bold;
             text-decoration: none;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: sans-serif;
             border-radius: 8px;
             z-index: 10;
-            opacity: 0.95;
-            background: linear-gradient(90deg, var(--dorado) 60%, var(--jade) 100%);
-            border: 1.5px solid var(--dorado);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: background 0.3s, color 0.3s;
-        }
-        .link:hover {
-            background: var(--verde-esmeralda);
-            color: var(--marfil);
+            opacity: 0;
         }
         .ubicacion {
             top: 58%;
@@ -77,56 +64,30 @@
         /* Estilos para el contador */
         .countdown {
             position: absolute;
-            top: 1.5%;
+            top: 1%;
             left: 50%;
             transform: translate(-50%, 0);
-            background: linear-gradient(90deg, var(--jade) 60%, var(--marfil) 100%);
-            color: var(--verde-esmeralda);
-            padding: 7px 16px;
-            border-radius: 16px;
+            background: rgba(0, 64, 0, 0.85);
+            color: #4efc58;
+            padding: 5px 10px;
+            border-radius: 10px;
             font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 1rem;
+            font-size: 0.85rem;
             text-align: center;
             letter-spacing: 1px;
-            box-shadow: 0 2px 8px rgba(0,77,60,0.10);
+            box-shadow: 0 2px 8px rgba(0,128,0,0.15);
             z-index: 20;
-            border: 2px solid var(--dorado);
+            border: 2px solid #4efc58;
             display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            animation: fadeInDown 1.2s cubic-bezier(.42,0,.58,1.0);
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translate(-50%, -30px);}
-            to { opacity: 1; transform: translate(-50%, 0);}
-        }
-        .countdown div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 38px;
-            animation: bounce 1.5s infinite alternate;
-        }
-        .countdown div:nth-child(2) { animation-delay: 0.2s;}
-        .countdown div:nth-child(3) { animation-delay: 0.4s;}
-        .countdown div:nth-child(4) { animation-delay: 0.6s;}
-        @keyframes bounce {
-            0% { transform: translateY(0);}
-            100% { transform: translateY(-7px);}
+            gap: 6px;
         }
         .countdown span {
-            min-width: 28px;
-            font-weight: 700;
-            font-size: 1.2em;
-            color: var(--dorado);
-            text-shadow: 0 1px 2px var(--verde-esmeralda), 0 0 2px var(--jade);
-            transition: color 0.3s;
+            min-width: 24px;
+            font-weight: 600;
         }
         .countdown-label {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             margin-top: 1px;
-            color: var(--verde-esmeralda);
-            letter-spacing: 0.5px;
         }
 
         /* Confeti canvas */
@@ -140,212 +101,15 @@
             z-index: 100;
         }
 
-        /* Mariposas decorativas */
-        .butterfly {
-            position: absolute;
-            width: 48px;
-            height: 48px;
-            z-index: 30;
-            opacity: 0.92;
-            pointer-events: none;
-            animation: flutter 5s infinite alternate ease-in-out;
+        /* Animación para los números del contador */
+        .count-animate {
+            animation: pop 0.4s;
         }
-        .butterfly.b1 { top: 10%; left: 6%; animation-delay: 0s;}
-        .butterfly.b2 { top: 18%; right: 7%; animation-delay: 1.5s;}
-        .butterfly.b3 { bottom: 12%; left: 12%; animation-delay: 2.2s;}
-        .butterfly.b4 { bottom: 8%; right: 10%; animation-delay: 0.8s;}
-        @keyframes flutter {
-            0% { transform: translateY(0) scale(1) rotate(-5deg);}
-            50% { transform: translateY(-18px) scale(1.08) rotate(7deg);}
-            100% { transform: translateY(0) scale(1) rotate(-5deg);}
+        @keyframes pop {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.3); }
+            60% { transform: scale(0.95);}
+            100% { transform: scale(1);}
         }
     </style>
 </head>
-<body>
-    <canvas id="confetti-canvas"></canvas>
-    <div class="container">
-        <!-- Mariposas SVG decorativas -->
-        <svg class="butterfly b1" viewBox="0 0 48 48">
-            <g>
-                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
-                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
-                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
-                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
-            </g>
-        </svg>
-        <svg class="butterfly b2" viewBox="0 0 48 48">
-            <g>
-                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
-                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
-                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
-                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
-            </g>
-        </svg>
-        <svg class="butterfly b3" viewBox="0 0 48 48">
-            <g>
-                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
-                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
-                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
-                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
-            </g>
-        </svg>
-        <svg class="butterfly b4" viewBox="0 0 48 48">
-            <g>
-                <ellipse cx="16" cy="24" rx="14" ry="8" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
-                <ellipse cx="32" cy="24" rx="14" ry="8" fill="#a0d1b5" stroke="#004d3c" stroke-width="1.5"/>
-                <ellipse cx="24" cy="24" rx="4" ry="10" fill="#d4af37" stroke="#004d3c" stroke-width="1"/>
-                <circle cx="24" cy="24" r="2.5" fill="#004d3c"/>
-            </g>
-        </svg>
-        <div class="countdown" id="countdown">
-            <div>
-                <span id="days">00</span>
-                <span class="countdown-label">DÍAS</span>
-            </div>
-            <div>
-                <span id="hours">00</span>
-                <span class="countdown-label">HORAS</span>
-            </div>
-            <div>
-                <span id="minutes">00</span>
-                <span class="countdown-label">MIN</span>
-            </div>
-            <div>
-                <span id="seconds">00</span>
-                <span class="countdown-label">SEG</span>
-            </div>
-        </div>
-        <img src="src/img.png" alt="Invitación">
-
-        <a href="https://www.google.com/maps?q=14.023185729980469,-89.64469909667969&z=17&hl=es" 
-           class="link ubicacion" target="_blank">
-           VER UBICACIÓN
-        </a>
-
-        <a href="https://drive.google.com/drive/folders/1UEZLs3ogFGIoO66KJ8DvKWsitVpiEPZE" 
-           class="link fotos" target="_blank">
-           SUBIR FOTOS
-        </a>
-    </div>
-    <script>
-        // Fecha objetivo: 24 de mayo de 2025 a las 5:00 pm (hora local)
-        const targetDate = new Date('2025-05-24T17:00:00');
-        const confettiCanvas = document.getElementById('confetti-canvas');
-        let confettiActive = false;
-
-        // Animación de pulso para los números del contador
-        function animatePulse(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.animate([
-                { transform: 'scale(1)', color: '#d4af37' },
-                { transform: 'scale(1.18)', color: '#004d3c' },
-                { transform: 'scale(1)', color: '#d4af37' }
-            ], {
-                duration: 400,
-                easing: 'cubic-bezier(.42,0,.58,1.0)'
-            });
-        }
-
-        function updateCountdown() {
-            const now = new Date();
-            const diff = targetDate - now;
-
-            // Si es el 24 de mayo de 2025 o después, mostrar confeti y mensaje
-            if (
-                now.getFullYear() === 2025 &&
-                now.getMonth() === 4 && // Mayo es 4 (0-indexed)
-                now.getDate() >= 24
-            ) {
-                document.getElementById('countdown').innerHTML = "¡Ya comenzó la fiesta!";
-                startConfetti();
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            // Solo animar si cambia el valor
-            if (document.getElementById('days').textContent !== days.toString().padStart(2, '0')) animatePulse('days');
-            if (document.getElementById('hours').textContent !== hours.toString().padStart(2, '0')) animatePulse('hours');
-            if (document.getElementById('minutes').textContent !== minutes.toString().padStart(2, '0')) animatePulse('minutes');
-            if (document.getElementById('seconds').textContent !== seconds.toString().padStart(2, '0')) animatePulse('seconds');
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Confeti simple en canvas (colores de la paleta)
-        function startConfetti() {
-            if (confettiActive) return;
-            confettiActive = true;
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-            const ctx = confettiCanvas.getContext('2d');
-            const confettiCount = 120;
-            const confettiColors = ['#004d3c', '#d4af37', '#fdfbf7', '#a0d1b5'];
-            const confetti = [];
-
-            for (let i = 0; i < confettiCount; i++) {
-                confetti.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-                    r: 6 + Math.random() * 6,
-                    d: Math.random() * confettiCanvas.height,
-                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-                    tilt: Math.floor(Math.random() * 10) - 5,
-                    tiltAngleIncremental: (Math.random() * 0.07) + .05,
-                    tiltAngle: 0
-                });
-            }
-
-            function drawConfetti() {
-                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-                for (let i = 0; i < confetti.length; i++) {
-                    let c = confetti[i];
-                    ctx.beginPath();
-                    ctx.lineWidth = c.r;
-                    ctx.strokeStyle = c.color;
-                    ctx.moveTo(c.x + c.tilt + (c.r / 3), c.y);
-                    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r);
-                    ctx.stroke();
-                }
-                updateConfetti();
-                requestAnimationFrame(drawConfetti);
-            }
-
-            function updateConfetti() {
-                for (let i = 0; i < confetti.length; i++) {
-                    let c = confetti[i];
-                    c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
-                    c.x += Math.sin(0.01 * c.d);
-                    c.tiltAngle += c.tiltAngleIncremental;
-                    c.tilt = Math.sin(c.tiltAngle - (i % 3)) * 15;
-
-                    // Reset confetti to top when it falls out of view
-                    if (c.y > confettiCanvas.height) {
-                        c.x = Math.random() * confettiCanvas.width;
-                        c.y = -10;
-                        c.tilt = Math.floor(Math.random() * 10) - 5;
-                    }
-                }
-            }
-
-            drawConfetti();
-        }
-
-        // Redimensionar canvas si cambia el tamaño de la ventana
-        window.addEventListener('resize', () => {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
