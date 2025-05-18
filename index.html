@@ -8,22 +8,41 @@
         body {
             margin: 0;
             padding: 0;
-            background: #000;
+            background: #004d3c; /* Verde esmeralda */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            /* Transición suave del fondo */
+            transition: background 1.2s cubic-bezier(.4,0,.2,1);
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(.4,0,.2,1), background 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        body.loaded {
+            opacity: 1;
         }
 
         .container {
             position: relative;
             max-width: 600px;
             width: 100%;
+            /* Animación de entrada */
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .container.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .container img {
             width: 100%;
             display: block;
+            border: 4px solid #d4af37; /* Dorado */
+            border-radius: 14px; /* Bordes no tan redondeados */
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            transition: box-shadow 0.7s cubic-bezier(.4,0,.2,1), border 0.7s cubic-bezier(.4,0,.2,1);
         }
 
         .link {
@@ -38,6 +57,18 @@
             border-radius: 8px;
             z-index: 10;
             opacity: 0;
+            background: rgba(0,77,60,0.85);
+            border: 2px solid #d4af37;
+            transition: opacity 1.2s cubic-bezier(.4,0,.2,1), background 0.5s, box-shadow 0.5s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .container.loaded .link {
+            opacity: 1;
+        }
+        .link:hover {
+            background: #d4af37;
+            color: #004d3c;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.18);
         }
         .ubicacion {
             top: 58%;
@@ -45,7 +76,6 @@
             width: 30%;
             height: 5%;
         }
-
         .fotos {
             top: 71%;
             left: 35%;
@@ -53,36 +83,43 @@
             height: 5%;
         }
 
-        /* Estilos para el contador */
         .countdown {
-    position: absolute;
-    top: 1%; /* Más arriba */
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: rgba(0, 64, 0, 0.85);
-    color: #4efc58;
-    padding: 5px 10px; /* Menos padding */
-    border-radius: 10px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 0.85rem; /* Más pequeño */
-    text-align: center;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 8px rgba(0,128,0,0.15);
-    z-index: 20;
-    border: 2px solid #4efc58;
-    display: flex;
-    gap: 6px; /* Menos espacio entre bloques */
-}
-.countdown span {
-    min-width: 24px; /* Más pequeño */
-    font-weight: 600;
-}
-.countdown-label {
-    font-size: 0.6rem; /* Más pequeño */
-    margin-top: 1px;
-}
+            position: absolute;
+            top: 1%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: #004d3c;
+            color: #d4af37;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.85rem;
+            text-align: center;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0,128,0,0.15);
+            z-index: 20;
+            border: 2px solid #d4af37;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transform: translate(-50%, -20px) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .container.loaded .countdown {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+        .countdown span {
+            min-width: 24px;
+            font-weight: 600;
+            color: #d4af37;
+        }
+        .countdown-label {
+            font-size: 0.6rem;
+            margin-top: 1px;
+            color: #d4af37;
+        }
 
-        /* Confeti canvas */
         #confetti-canvas {
             position: fixed;
             pointer-events: none;
@@ -128,6 +165,14 @@
         </a>
     </div>
     <script>
+        // Animación de carga suave
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+            setTimeout(() => {
+                document.querySelector('.container').classList.add('loaded');
+            }, 200);
+        });
+
         // Fecha objetivo: 24 de mayo de 2025 a las 5:00 pm (hora local)
         const targetDate = new Date('2025-05-24T17:00:00');
         const confettiCanvas = document.getElementById('confetti-canvas');
@@ -140,7 +185,7 @@
             // Si es el 24 de mayo de 2025 o después, mostrar confeti y mensaje
             if (
                 now.getFullYear() === 2025 &&
-                now.getMonth() === 4 && // Mayo es 4 (0-indexed)
+                now.getMonth() === 4 &&
                 now.getDate() >= 24
             ) {
                 document.getElementById('countdown').innerHTML = "¡Ya comenzó la fiesta!";
