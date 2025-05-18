@@ -46,21 +46,10 @@
         }
 
         .link {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-            font-family: sans-serif;
-            border-radius: 8px;
-            z-index: 10;
-            opacity: 0;
-            background: rgba(0,77,60,0.85);
-            border: 2px solid #d4af37;
-            transition: opacity 1.2s cubic-bezier(.4,0,.2,1), background 0.5s, box-shadow 0.5s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            opacity: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: auto !important;
         }
         .container.loaded .link {
             opacity: 1;
